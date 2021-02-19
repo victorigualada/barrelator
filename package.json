@@ -1,13 +1,13 @@
 {
   "name": "asset-importer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "asset-importer": "bin/asset-importer",
+    "asset-importer": "bin/asset-importer"
   },
   "author": "",
   "license": "ISC"
