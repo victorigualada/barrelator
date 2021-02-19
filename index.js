@@ -1,7 +1,7 @@
-const { assets } = require('../package.json');
 const fs = require('fs');
 
-const baseDir = './';
+const baseDir = process.cwd();
+const { assets } = require(`${baseDir}/package.json`);
 
 String.prototype.toCamelCase = function() {
   return this.replace(/^([A-Z])|[\s-_](\w)/g, function(match, p1, p2, offset) {
@@ -37,8 +37,7 @@ const buildImportFile = (dir, name = 'assets', assets) => {
     content = content.concat(`  ${name},\n`)
   });
   content = content.concat(`}`);
-  const outputFile = `${baseDir}${dir}/${name}.js`;
-  console.log(content);
+  const outputFile = `${baseDir}/${dir}/${name}.js`;
   fs.writeFileSync(outputFile, content);
 }
 
@@ -51,7 +50,7 @@ const assetLoader = (options) => {
     validateDir(assets);
     let matchedExtensions = assets;
     if (ext) {
-       matchedExtensions = assets.filter(asset => asset.includes(ext));
+      matchedExtensions = assets.filter(asset => asset.includes(ext));
     }
     buildImportFile(dir, name, matchedExtensions);
   });
