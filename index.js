@@ -4,10 +4,7 @@ const baseDir = process.cwd();
 const { assets } = require(`${baseDir}/package.json`);
 
 String.prototype.toCamelCase = function() {
-  return this.replace(/^([A-Z])|[\s-_](\w)/g, function(match, p1, p2, offset) {
-    if (p2) return p2.toUpperCase();
-    return p1.toLowerCase();
-  });
+  return this.replace(/^([A-Z])|[\s-_]+(\w)/g, (match, p1, p2, offset) => p2 ? p2.toUpperCase() : p1)
 };
 
 const validateFilesProperty = (files) => {
@@ -22,7 +19,7 @@ const validateDir = (files) => {
   }
 }
 
-const buildImportFile = (dir, name = 'assets', assets) => {
+const buildImportFile = (dir, name, assets) => {
   let content = '';
   const assetNames = [];
   assets.forEach(asset => {
@@ -32,11 +29,12 @@ const buildImportFile = (dir, name = 'assets', assets) => {
     assetNames.push(fileName);
     content = content.concat(`import ${fileName} from './${asset}';\n`);
   });
-  content = content.concat(`\nexport default ${name} = {\n`);
+  content = content.concat(`\nconst ${name} = {\n`);
   assetNames.forEach(name => {
     content = content.concat(`  ${name},\n`)
   });
-  content = content.concat(`}`);
+  content = content.concat(`}\n`);
+  content = content.concat(`\nexport default ${name}`);
   const outputFile = `${baseDir}/${dir}/${name}.js`;
   fs.writeFileSync(outputFile, content);
 }
@@ -45,7 +43,12 @@ const assetLoader = (options) => {
   validateFilesProperty(options);
 
   options.forEach(fileSet => {
-    const { ext, dir, name } = fileSet;
+    const { ext, dir, name = 'assets' } = fileSet;
+    const previousFile = `${baseDir}/${dir}/${name}.js`;
+    if (fs.existsSync(previousFile)) {
+      fs.unlinkSync(previousFile);
+    }
+
     const assets = fs.readdirSync(dir);
     validateDir(assets);
     let matchedExtensions = assets;
@@ -53,6 +56,7 @@ const assetLoader = (options) => {
       matchedExtensions = assets.filter(asset => asset.includes(ext));
     }
     buildImportFile(dir, name, matchedExtensions);
+    console.log(`Created barrel file ${previousFile}`);
   });
 }
 
