@@ -1,0 +1,9 @@
+{
+  "assets-barrel": [
+    {
+      "dir": "files",
+      "exts": ["jpg"],
+      "name": "images"
+    }
+  ]
+}
