@@ -1,4 +1,4 @@
-# assets-barrel
+# barrelator
 
 After a lack of an easy way to create static websites with dynamic files (from a JSON file for example),
 this project aims to build a barrel file to import those files. Providing so a `const` variable with the imported files.
@@ -6,11 +6,11 @@ this project aims to build a barrel file to import those files. Providing so a `
 ## Installation
 
 ```shell script
-npm i assets-barrel --save-dev
+npm i barrelator --save-dev
 ```
 
 ## Configuration
-In a `assets-barrel.json` file:
+In a `barrelator.json` file:
 ```json
 [
   {
@@ -19,24 +19,23 @@ In a `assets-barrel.json` file:
   {
     "dir": "src/model/images",
     "exts": ["png"],
-    "name": "myImages",
-    "parse": true
+    "name": "assets",
+    "parse": false
   }
 ]
 ```
 
-In `package.json`, just add an `assets-barrel` property:
+In `package.json`, just add an `barrelator` property:
 
 ```json
-"assets-barrel": [
+"barrelator": [
   {
     "dir": "src/Assets"
   },
   {
     "dir": "src/model/images",
     "exts": ["png"],
-    "name": "myImages",
-    "parse": true
+    "name": "myImages"
   }
 ]
 ```
@@ -45,15 +44,16 @@ In `package.json`, just add an `assets-barrel` property:
 |:--------:|:-------:|:---------:|:-------:|---------------------------------------------|
 |   `dir`  |  string |    yes    |    -    | Directory from which import files           |
 |  `exts`  |  array  |     no    |    -    | Array of extensions that should be included |
-|  `name`  |  string |     no    |  assets | Exported property name                      |
-|  `parse` | boolean |     no    |  false  | Camel case the file names                   |
+|  `name`  |  string |     no    |  index  | Barrel file name                      |
+|  `parse` | boolean |     no    |   true  | Camel case the file names                   |
+|   `ts`   | boolean |     no    |  false  | Produce a Typescript barrel                 |
 ## Run
 
 ```shell script
-npx assets-barrel
+npx barrelator
 ```
 
-This will generate a file for each element in the `assets-barrel` array in the `package.josn`.
+This will generate a file for each element in the `barrelator` array in the `barrelator.json` or in the `package.josn`.
 
 ## Example
 
@@ -64,24 +64,22 @@ For the previous configuration, assuming both folders two files `image1.png` and
 import image1 from 'src/model/images/image1.png'
 import image2 from 'src/model/images/image2.png'
 
-const assets = {
+export default {
   'src/model/images/image1.png': image1,
   'src/model/images/image2.png': image2,
-};
-
-export const assets;
+}
 ```
 
 `src/model/images/myImages.js`
 ```javascript
 import image1 from 'src/model/images/image1.png'
 
-const myImages = {
+export default {
   image1,
-};
-
-export const myImages;
+}
 ```
+
+If no `name` is provided, it will export 
 
 Then in a component:
 

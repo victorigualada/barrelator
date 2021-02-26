@@ -1,7 +1,7 @@
 {
-  "assets-barrel": [
+  "barrelator": [
     {
-      "dir": "files"
+      "dir": "."
     }
   ]
 }

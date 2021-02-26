@@ -1,0 +1,9 @@
+[
+  {
+    "dir": ".",
+    "exts": ["jpg"],
+    "name": "images",
+    "parse": false
+  }
+]
+

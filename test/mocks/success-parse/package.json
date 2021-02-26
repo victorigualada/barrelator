@@ -1,10 +1,9 @@
 {
-  "assets-barrel": [
+  "barrelator": [
     {
-      "dir": "files",
+      "dir": ".",
       "exts": ["jpg"],
-      "name": "images",
-      "parse": true
+      "name": "images"
     }
   ]
 }

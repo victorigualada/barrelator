@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+const meow = require('meow');
+const barrelator = require('../lib/index.js');
+
+const cli = meow(
+  `
+    Usage
+      $ barrelator <input>
+ 
+    Options
+      --exts, -e        Sets pattern for extension inclusion. Comma separated list.
+      --name, -n        Sets the name of the barrel file.
+      --parse, -p       Exports properties as camelCase.
+      --typescript, -t  Generates a .d.ts barrel instead of a .js
+
+ 
+    Examples
+      $ barrelator ./folder
+`,
+  {
+    flags: {
+      exts: {
+        type: "string",
+        alias: "e"
+      },
+      name: {
+        type: "string",
+        alias: "n"
+      },
+      parse: {
+        type: "boolean",
+        alias: "p"
+      },
+      typescript: {
+        type: "boolean",
+        alias: "t"
+      }
+    }
+  }
+);
+
+const run = (dir, flags) => {
+  let options;
+
+  if (dir.length > 0) {
+    options = { dir: dir[0] };
+    if (flags.exts) options.exts = flags.exts.split(',');
+    if (flags.name) options.name = flags.name;
+    if (flags.parse) options.parse = flags.parse;
+    if (flags.typescript) options.ts = flags.typescript;
+  }
+
+  barrelator.run([options]);
+};
+
+run(cli.input, cli.flags);
