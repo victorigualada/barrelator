@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/victorigualada/assets-barrel.git"
+    "url": "git+https://github.com/victorigualada/barrelator.git"
   },
   "bugs": {
-    "url": "https://github.com/victorigualada/assets-barrel/issues"
+    "url": "https://github.com/victorigualada/barrelator/issues"
   },
-  "homepage": "https://github.com/victorigualada/assets-barrel#readme",
+  "homepage": "https://github.com/victorigualada/barrelator#readme",
   "bin": {
     "asset-importer": "bin/barrelator"
   },
