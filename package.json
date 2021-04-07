@@ -1,6 +1,6 @@
 {
   "name": "barrelator",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Generates a barrel file for all of your assets",
   "main": "lib/index.js",
   "scripts": {
